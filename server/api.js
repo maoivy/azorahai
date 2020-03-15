@@ -11,7 +11,8 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
-const Location = require("./models/location");
+const Theory = require("./models/theory");
+const Proof = require("./models/proof");
 
 // import authentication library
 const auth = require("./auth");
@@ -30,42 +31,53 @@ router.get("/whoami", (req, res) => {
   res.send(req.user);
 });
 
-router.get("/locations", (req, res) => {
-  Location.find({
-    user: req.user._id,
-  }).then((locations) => res.send(locations));
-});
+const CHARACTERS = ["Daenerys Targaryen", "Jon Snow"];
+const ACTIONS = ["is Benjen", "is Rhaegar", "is Quaithe"];
+const CATEGORIES = ["secret identity"];
 
-// should pass {name: ""}
-router.post("/locations/new", auth.ensureLoggedIn, (req, res) => {
-  // verify if the name isn't blank (can also be done in frontend)
-  if (!req.body.name) {
-    res.send({ error: "enter a name" });
-  } else {
-    Location.findOne({
-      user: req.user,
-      name: req.body.name,
-    }).then((location) => {
-      if (location) {
-        res.send({ error: "you already have a location with this name" });
-      } else {
-        // no duplicate location was found, so we're creating a new one
-        newLocation = new Location({
-          user: req.user,
-          name: req.body.name,
-          items: [],
-        });
-        newLocation.save().then((newLocation) => res.send(newLocation));
-      }
-    });
-  }
-});
+// generates a random theorym, no filters for now
+// TODO: FIND A BETTER WAY TO BUILD THE THEORIES DATABASE
+router.get("/theories", (req, res) => {
+  // generate a random theory
+  const character = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+  const action = ACTIONS[Math.floor(Math.random() * ACTIONS.length)];
+  const category = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
 
-// should pass {product: ""}
-router.get("/requests", (req, res) => {
-  Request.find({ user: req.user._id }).then((requests) => {
-    res.send(requests);
+  Theory.findOne({
+    character: [character],
+    action: action,
+    category: category,
+  }).then((theory) => {
+    // if theory found, return it
+    if (theory) {
+      res.send(theory);
+    } else {
+      newTheory = new Theory({
+        text: character + " " + action,
+        character: [character],
+        action: action,
+        category: category,
+      });
+      newTheory.save().then((theory) => res.send(theory));
+    }
   });
+});
+
+// gets all the proofs associated with a given theory
+// should pass { theoryId: theoryId }
+router.get("/proofs", (req, res) => {
+  Proof.find({
+    theory: req.query.theory,
+  }).then((proofs) => res.send(proofs));
+});
+
+router.post("/proofs", (req, res) => {
+  newProof = new Proof({
+    user: req.user._id,
+    theory: req.body.theory,
+    text: req.body.text,
+  });
+  newProof.save().then((newProof) => res.send(newProof));
 });
 
 // anything else falls to this "not found" case

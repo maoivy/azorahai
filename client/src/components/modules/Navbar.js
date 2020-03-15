@@ -17,8 +17,8 @@ class Navbar extends Component {
     return (
       <>
         <div className="navbar-container">
-          <Link to="/dashboard/" className="navbar-link">
-            where
+          <Link to="/" className="navbar-link">
+            a song of tin and foil
           </Link>
           <div className="navBar-linkContainer">
             {this.props.user ? (

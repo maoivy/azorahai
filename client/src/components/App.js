@@ -29,7 +29,6 @@ class App extends Component {
         // they are registed in the database, and currently logged in.
         this.setState({
           userId: user._id,
-          username: user.name,
         });
       }
     });
@@ -38,67 +37,38 @@ class App extends Component {
   handleLogin = (res) => {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
-    post("/api/login", { token: userToken })
-      .then((user) => {
-        this.setState({ userId: user._id });
-      })
-      .then(() => navigate("/home"));
+    post("/api/login", { token: userToken }).then((user) => {
+      this.setState({ userId: user._id });
+    });
   };
 
   handleLogout = () => {
     this.setState({ userId: undefined });
-    post("/api/logout").then(() => navigate("/"));
+    post("/api/logout");
   };
 
   render() {
-    if (this.state.userId) {
-      return (
-        <>
-          <Helmet>
-            <title>jeff</title>
-          </Helmet>
-          <Navbar
+    return (
+      <>
+        <Helmet>
+          <title>a song of tin and foil</title>
+        </Helmet>
+        <Navbar
+          user={this.state.userId}
+          handleLogin={this.handleLogin}
+          handleLogout={this.handleLogout}
+        />
+        <Router>
+          <Home
+            path="/"
+            handleLogin={this.handleLogin}
+            handleLogout={this.handleLogout}
             user={this.state.userId}
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}
           />
-          <Router>
-            <Home
-              path="/home"
-              handleLogin={this.handleLogin}
-              handleLogout={this.handleLogout}
-              user={this.state.userId}
-              username={this.state.username}
-            />
-            <Home
-              path="/"
-              handleLogin={this.handleLogin}
-              handleLogout={this.handleLogout}
-              user={this.state.userId}
-              username={this.state.username}
-            />
-            <NotFound default />
-          </Router>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <Helmet>
-            <title>where</title>
-          </Helmet>
-          <Navbar
-            creator={this.state.userId}
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}
-          />
-          <Router>
-            <Landing path="/" />
-            <NotFound default />
-          </Router>
-        </>
-      );
-    }
+          <NotFound default />
+        </Router>
+      </>
+    );
   }
 }
 

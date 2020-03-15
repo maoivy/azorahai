@@ -32,7 +32,7 @@ require("dotenv").config();
 
 // Server configuration below
 const mongoConnectionURL = process.env.ATLAS_SRV;
-const databaseName = "where";
+const databaseName = "azorahai";
 
 // connect to mongodb
 mongoose
