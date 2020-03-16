@@ -2,7 +2,6 @@
   margin-top: 10px;
 }
 
-.proof-input {
-  height: 10vh;
-  width: calc(80vw + 10px);
+.proof-btn {
+  padding: 10px;
 }

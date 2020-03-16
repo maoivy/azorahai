@@ -1,4 +1,5 @@
 import React from "react";
+import InputDisplay from "./InputDisplay.js";
 
 import "./Proof.css";
 
@@ -20,7 +21,9 @@ class Proof extends React.Component {
     return (
       <div className="proof-container">
         <div className="proof-author">{this.props.proof.username}</div>
-        <div className="proof-text">{this.props.proof.text}</div>
+        <div className="proof-text">
+          <InputDisplay text={this.props.proof.text} />
+        </div>
         {this.props.proof.user == this.props.user && (
           <button className="delete-btn" onClick={() => this.props.deleteProof(this.props.proof)}>
             delete

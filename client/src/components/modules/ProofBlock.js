@@ -1,5 +1,6 @@
 import React from "react";
 import Proof from "./Proof.js";
+import Input from "./Input.js";
 
 import "./ProofBlock.css";
 
@@ -28,17 +29,15 @@ class ProofBlock extends React.Component {
     );
   }
 
-  submitNewProof = () => {
-    if (this.state.newProof) {
-      const params = {
-        username: this.props.username,
-        theory: this.props.theory,
-        text: this.state.newProof,
-      };
-      post("/api/proofs/new", params).then((newProof) =>
-        this.setState((prevState) => ({ proofs: prevState.proofs.concat(newProof), newProof: "" }))
-      );
-    }
+  submitNewProof = (proof) => {
+    const params = {
+      username: this.props.username,
+      theory: this.props.theory,
+      text: proof,
+    };
+    post("/api/proofs/new", params).then((newProof) =>
+      this.setState((prevState) => ({ proofs: prevState.proofs.concat(newProof), newProof: "" }))
+    );
   };
 
   deleteProof = (proof) => {
@@ -65,15 +64,7 @@ class ProofBlock extends React.Component {
     if (this.props.user) {
       newProofInput = (
         <>
-          <input
-            type="text"
-            value={this.state.newProof}
-            className="proof-input"
-            onChange={(event) => this.setState({ newProof: event.target.value })}
-          ></input>
-          <button className="proof-btn" onClick={() => this.submitNewProof()}>
-            Post
-          </button>
+          <Input submit={this.submitNewProof} />
         </>
       );
     }
