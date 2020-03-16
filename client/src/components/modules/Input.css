@@ -7,5 +7,24 @@
   border-radius: 3px;
 }
 
-.inputdisplay-container {
+.input-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: -10px;
+}
+
+.submit-btn {
+  padding: 10px;
+  background: var(--accent);
+  border: 1px solid var(--borders);
+  border-radius: 3px;
+
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-text);
+}
+
+.submit-btn:hover {
+  cursor: pointer;
 }

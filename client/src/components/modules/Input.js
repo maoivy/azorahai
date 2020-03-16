@@ -36,11 +36,11 @@ class Input extends React.Component {
 
   handleSubmit = () => {
     const contentState = this.state.editorState.getCurrentContent();
-    // if (contentState.hasText()) {
-    const rawContentState = convertToRaw(contentState);
-    const contentStateString = JSON.stringify(rawContentState);
-    this.props.submit(contentStateString);
-    // }
+    if (contentState.hasText()) {
+      const rawContentState = convertToRaw(contentState);
+      const contentStateString = JSON.stringify(rawContentState);
+      this.props.submit(contentStateString);
+    }
   };
 
   render() {
@@ -54,7 +54,7 @@ class Input extends React.Component {
           placeholder="Start making your case..."
         />
         <div className="input-footer">
-          <button className="proof-btn" onClick={() => this.handleSubmit()}>
+          <button className="submit-btn" onClick={() => this.handleSubmit()}>
             Post
           </button>
         </div>
