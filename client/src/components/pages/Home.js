@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet";
  *
  * Proptypes
  * @param {ObjectId} user id
+ * @param {String} username (alias) of user logged in
  *
  **/
 class Home extends React.Component {
@@ -29,7 +30,13 @@ class Home extends React.Component {
     let proofBlock = "Loading...";
     if (this.state.theory) {
       theoryText = this.state.theory.text;
-      proofBlock = <ProofBlock theory={this.state.theory._id} user={this.props.user} />;
+      proofBlock = (
+        <ProofBlock
+          theory={this.state.theory._id}
+          user={this.props.user}
+          username={this.props.username}
+        />
+      );
     }
 
     return (

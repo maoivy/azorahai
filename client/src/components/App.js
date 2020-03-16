@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { Router, navigate } from "@reach/router";
+import { Router, Redirect, navigate } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Home from "./pages/Home.js";
 import Navbar from "./modules/Navbar.js";
-import Landing from "./pages/Landing.js";
+import Home from "./pages/Home.js";
+import Settings from "./pages/Settings.js";
 import { Helmet } from "react-helmet";
 
 import "../utilities.css";
+import "./App.css";
 
 import { get, post } from "../utilities.js";
 
@@ -18,17 +19,18 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: undefined,
-      username: undefined,
+      userId: null,
+      username: "",
     };
   }
 
   componentDidMount() {
     get("/api/whoami").then((user) => {
       if (user._id) {
-        // they are registed in the database, and currently logged in.
+        // they are registered in the database, and currently logged in.
         this.setState({
           userId: user._id,
+          username: user.username,
         });
       }
     });
@@ -38,16 +40,32 @@ class App extends Component {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id });
+      this.setState({ userId: user._id, username: user.username });
+      if (!user.username) {
+        navigate("/settings");
+      }
     });
   };
 
   handleLogout = () => {
-    this.setState({ userId: undefined });
+    this.setState({ userId: null, username: "" });
     post("/api/logout");
   };
 
+  handleSaveSettings = (username) => {
+    const params = {
+      username: username,
+    };
+    post("/api/settings", params).then((updatedUser) =>
+      this.setState({ username: updatedUser.username })
+    );
+  };
+
   render() {
+    let needsToRegister = false;
+    if (this.state.userId && !this.state.username) {
+      needsToRegister = true;
+    }
     return (
       <>
         <Helmet>
@@ -58,15 +76,29 @@ class App extends Component {
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
         />
-        <Router>
-          <Home
-            path="/"
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}
-            user={this.state.userId}
-          />
-          <NotFound default />
-        </Router>
+        <div className="page-container">
+          {needsToRegister ? (
+            <Router>
+              <Redirect noThrow={true} from="/" to="settings" />
+              <Settings
+                path="settings"
+                username={this.state.username}
+                handleSaveSettings={this.handleSaveSettings}
+              />
+              <NotFound default />
+            </Router>
+          ) : (
+            <Router>
+              <Home path="/" user={this.state.userId} username={this.state.username} />
+              <Settings
+                path="settings"
+                username={this.state.username}
+                handleSaveSettings={this.handleSaveSettings}
+              />
+              <NotFound default />
+            </Router>
+          )}
+        </div>
       </>
     );
   }

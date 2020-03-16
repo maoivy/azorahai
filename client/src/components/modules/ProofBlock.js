@@ -31,19 +31,33 @@ class ProofBlock extends React.Component {
   submitNewProof = () => {
     if (this.state.newProof) {
       const params = {
+        username: this.props.username,
         theory: this.props.theory,
         text: this.state.newProof,
       };
-      post("/api/proofs", params).then((newProof) =>
+      post("/api/proofs/new", params).then((newProof) =>
         this.setState((prevState) => ({ proofs: prevState.proofs.concat(newProof), newProof: "" }))
       );
     }
   };
 
+  deleteProof = (proof) => {
+    const proofIndex = this.state.proofs.indexOf(proof);
+    post("/api/proofs/delete", { proofId: proof._id }).then((deletedProof) => {
+      const proofs = this.state.proofs;
+      proofs.splice(proofIndex, 1);
+      this.setState({
+        proofs: proofs,
+      });
+    });
+  };
+
   render() {
     let proofs = "Loading...";
     if (this.state.proofs) {
-      proofs = this.state.proofs.map((proof, k) => <Proof key={k} proof={proof} />);
+      proofs = this.state.proofs.map((proof, k) => (
+        <Proof key={k} proof={proof} user={this.props.user} deleteProof={this.deleteProof} />
+      ));
     }
 
     // if logged in, display new proof input

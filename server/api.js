@@ -26,9 +26,13 @@ router.get("/whoami", (req, res) => {
   if (!req.user) {
     // not logged in
     return res.send({});
+  } else {
+    User.findOne({
+      _id: req.user._id,
+    }).then((user) => {
+      res.send(user);
+    });
   }
-
-  res.send(req.user);
 });
 
 const CHARACTERS = ["Daenerys Targaryen", "Jon Snow"];
@@ -71,13 +75,29 @@ router.get("/proofs", (req, res) => {
   }).then((proofs) => res.send(proofs));
 });
 
-router.post("/proofs", (req, res) => {
+router.post("/proofs/new", (req, res) => {
   newProof = new Proof({
     user: req.user._id,
+    username: req.body.username,
     theory: req.body.theory,
     text: req.body.text,
   });
   newProof.save().then((newProof) => res.send(newProof));
+});
+
+router.post("/proofs/delete", (req, res) => {
+  Proof.findOneAndDelete({
+    _id: req.body.proofId,
+  }).then((deletedProof) => res.send(deletedProof));
+});
+
+router.post("/settings", (req, res) => {
+  User.findOne({
+    _id: req.user._id,
+  }).then((user) => {
+    user.username = req.body.username;
+    user.save().then((updatedUser) => res.send(updatedUser));
+  });
 });
 
 // anything else falls to this "not found" case

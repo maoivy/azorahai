@@ -3,5 +3,6 @@
 }
 
 .proof-input {
-  width: 80vw;
+  height: 10vh;
+  width: calc(80vw + 10px);
 }

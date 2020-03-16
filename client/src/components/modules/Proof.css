@@ -3,5 +3,16 @@
   width: 80vw;
   padding: 10px;
   background-color: white;
-  border: 1px solid red;
+  border: 1px solid var(--borders);
+  border-radius: 3px;
+}
+
+.proof-author {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.proof-text {
+  margin-top: 3px;
+  font-size: 14px;
 }
