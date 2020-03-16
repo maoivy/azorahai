@@ -6,6 +6,7 @@ const ProofSchema = new mongoose.Schema({
   username: String,
   theory: { type: ObjectId, ref: "theory" },
   text: String,
+  likes: { type: Array, default: [] },
 });
 
 module.exports = mongoose.model("proof", ProofSchema);

@@ -75,7 +75,7 @@ router.get("/proofs", (req, res) => {
   }).then((proofs) => res.send(proofs));
 });
 
-router.post("/proofs/new", (req, res) => {
+router.post("/proofs/new", auth.ensureLoggedIn, (req, res) => {
   newProof = new Proof({
     user: req.user._id,
     username: req.body.username,
@@ -85,13 +85,29 @@ router.post("/proofs/new", (req, res) => {
   newProof.save().then((newProof) => res.send(newProof));
 });
 
-router.post("/proofs/delete", (req, res) => {
+router.post("/proofs/delete", auth.ensureLoggedIn, (req, res) => {
   Proof.findOneAndDelete({
     _id: req.body.proofId,
   }).then((deletedProof) => res.send(deletedProof));
 });
 
-router.post("/settings", (req, res) => {
+router.post("/proofs/like", auth.ensureLoggedIn, (req, res) => {
+  Proof.findOne({
+    _id: req.body.proofId,
+  }).then((proof) => {
+    // if the user hasn't already liked it and isn't the author
+    const isAuthor = proof.user.toString() !== req.user._id.toString();
+    const alreadyLiked = proof.likes.indexOf(req.user._id) !== -1;
+    if (isAuthor && !alreadyLiked) {
+      proof.likes.push(req.user._id);
+      proof.save().then((likedProof) => res.send(likedProof));
+    } else {
+      res.send(proof);
+    }
+  });
+});
+
+router.post("/settings", auth.ensureLoggedIn, (req, res) => {
   User.findOne({
     _id: req.user._id,
   }).then((user) => {

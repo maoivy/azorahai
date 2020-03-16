@@ -1,6 +1,6 @@
 .input-container {
   height: 10vh;
-  width: 80vw;
+  width: 65vw;
   padding: 10px;
   background-color: white;
   border: 1px solid var(--borders);
@@ -14,9 +14,9 @@
   margin-right: -10px;
 }
 
-.submit-btn {
-  padding: 10px;
-  background: var(--accent);
+.submit-btn,
+.submit-btn-inactive {
+  padding: 8px 10px;
   border: 1px solid var(--borders);
   border-radius: 3px;
 
@@ -25,6 +25,14 @@
   color: var(--accent-text);
 }
 
+.submit-btn {
+  background: var(--accent);
+}
+
 .submit-btn:hover {
   cursor: pointer;
+}
+
+.submit-btn-inactive {
+  background: var(--accent-muted);
 }

@@ -51,11 +51,28 @@ class ProofBlock extends React.Component {
     });
   };
 
+  likeProof = (proof) => {
+    const proofIndex = this.state.proofs.indexOf(proof);
+    post("/api/proofs/like", { proofId: proof._id }).then((likedProof) => {
+      const proofs = this.state.proofs;
+      proofs.splice(proofIndex, 1, likedProof);
+      this.setState({
+        proofs: proofs,
+      });
+    });
+  };
+
   render() {
     let proofs = "Loading...";
     if (this.state.proofs) {
       proofs = this.state.proofs.map((proof, k) => (
-        <Proof key={k} proof={proof} user={this.props.user} deleteProof={this.deleteProof} />
+        <Proof
+          key={k}
+          proof={proof}
+          user={this.props.user}
+          deleteProof={this.deleteProof}
+          likeProof={this.likeProof}
+        />
       ));
     }
 
@@ -72,7 +89,7 @@ class ProofBlock extends React.Component {
     return (
       <div className="proofblock-container">
         {newProofInput}
-        {proofs}
+        <div className="proofs-container">{proofs}</div>
       </div>
     );
   }

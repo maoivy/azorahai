@@ -40,10 +40,18 @@ class Input extends React.Component {
       const rawContentState = convertToRaw(contentState);
       const contentStateString = JSON.stringify(rawContentState);
       this.props.submit(contentStateString);
+      this.setState({
+        editorState: EditorState.createEmpty(),
+      });
     }
   };
 
   render() {
+    let submitClassName = "submit-btn";
+    if (!this.state.editorState.getCurrentContent().hasText()) {
+      submitClassName = "submit-btn-inactive";
+    }
+
     return (
       <div className="input-container">
         <Editor
@@ -54,7 +62,7 @@ class Input extends React.Component {
           placeholder="Start making your case..."
         />
         <div className="input-footer">
-          <button className="submit-btn" onClick={() => this.handleSubmit()}>
+          <button className={submitClassName} onClick={() => this.handleSubmit()}>
             Post
           </button>
         </div>
