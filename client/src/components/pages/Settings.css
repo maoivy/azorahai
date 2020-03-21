@@ -1,0 +1,11 @@
+.sigils-container {
+  display: flex;
+}
+
+.settings-sigil {
+  height: 4vw;
+}
+
+.selected {
+  border: 1px solid red;
+}

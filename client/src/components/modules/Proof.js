@@ -2,10 +2,12 @@ import React from "react";
 import InputDisplay from "./InputDisplay.js";
 
 import "./Proof.css";
-import targaryen from "../../public/targaryen.png";
+import targaryen from "../../public/sigils/targaryen.png";
+import baratheon from "../../public/sigils/baratheon.png";
 
 const SIGIL_MAP = {
   targaryen: targaryen,
+  baratheon: baratheon,
 };
 
 /**

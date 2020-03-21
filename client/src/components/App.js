@@ -54,12 +54,21 @@ class App extends Component {
     post("/api/logout");
   };
 
-  handleSaveSettings = (username) => {
+  changeUsername = (username) => {
     const params = {
       username: username,
     };
-    post("/api/settings", params).then((updatedUser) =>
+    post("/api/settings/username", params).then((updatedUser) =>
       this.setState({ username: updatedUser.username })
+    );
+  };
+
+  changeIcon = (icon) => {
+    const params = {
+      icon: icon,
+    };
+    post("/api/settings/icon", params).then((updatedUser) =>
+      this.setState({ icon: updatedUser.icon })
     );
   };
 
@@ -86,7 +95,9 @@ class App extends Component {
               <Settings
                 path="settings"
                 username={this.state.username}
-                handleSaveSettings={this.handleSaveSettings}
+                icon={this.state.icon}
+                changeUsername={this.changeUsername}
+                changeIcon={this.changeIcon}
               />
               <NotFound default />
             </Router>
@@ -101,7 +112,9 @@ class App extends Component {
               <Settings
                 path="settings"
                 username={this.state.username}
-                handleSaveSettings={this.handleSaveSettings}
+                icon={this.state.icon}
+                changeUsername={this.changeUsername}
+                changeIcon={this.changeIcon}
               />
               <NotFound default />
             </Router>

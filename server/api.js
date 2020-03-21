@@ -124,13 +124,30 @@ router.post("/proofs/unlike", auth.ensureLoggedIn, (req, res) => {
   });
 });
 
-router.post("/settings", auth.ensureLoggedIn, (req, res) => {
-  User.findOne({
-    _id: req.user._id,
-  }).then((user) => {
-    user.username = req.body.username;
-    user.save().then((updatedUser) => res.send(updatedUser));
-  });
+router.post("/settings/username", auth.ensureLoggedIn, (req, res) => {
+  Proof.updateMany({ user: req.user._id }, { $set: { username: req.body.username } }).then(
+    (updatedProofs) => {
+      User.findOne({
+        _id: req.user._id,
+      }).then((user) => {
+        user.username = req.body.username;
+        user.save().then((updatedUser) => res.send(updatedUser));
+      });
+    }
+  );
+});
+
+router.post("/settings/icon", auth.ensureLoggedIn, (req, res) => {
+  Proof.updateMany({ user: req.user._id }, { $set: { icon: req.body.icon } }).then(
+    (updatedProofs) => {
+      User.findOne({
+        _id: req.user._id,
+      }).then((user) => {
+        user.icon = req.body.icon;
+        user.save().then((updatedUser) => res.send(updatedUser));
+      });
+    }
+  );
 });
 
 // anything else falls to this "not found" case

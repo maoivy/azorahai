@@ -5,7 +5,13 @@ import { Link } from "@reach/router";
 import "./Navbar.css";
 import "../../utilities.css";
 import tinfoil from "../../public/tinfoil.png";
-import targaryen from "../../public/targaryen.png";
+import targaryen from "../../public/sigils/targaryen.png";
+import baratheon from "../../public/sigils/baratheon.png";
+
+const SIGIL_MAP = {
+  targaryen: targaryen,
+  baratheon: baratheon,
+};
 
 const GOOGLE_CLIENT_ID = "164562165892-i4it57327rduvh42atp6f6qpqdsrgamu.apps.googleusercontent.com";
 
@@ -34,7 +40,10 @@ class Navbar extends Component {
           <div className="navbar-links">
             {this.props.user ? (
               <>
-                <img className="sigil" src={targaryen} />
+                <Link to="settings" className="navbar-link">
+                  <img className="sigil" src={SIGIL_MAP[this.props.icon]} />
+                </Link>
+
                 <GoogleLogout
                   className="logout-btn Navbar-opts_login"
                   clientId={GOOGLE_CLIENT_ID}
