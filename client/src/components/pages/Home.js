@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
  * Proptypes
  * @param {ObjectId} user id
  * @param {String} username (alias) of user logged in
- *
+ * @param {String} icon of user logged in
  **/
 class Home extends React.Component {
   constructor(props) {
@@ -35,6 +35,7 @@ class Home extends React.Component {
           theory={this.state.theory._id}
           user={this.props.user}
           username={this.props.username}
+          icon={this.props.icon}
         />
       );
     }

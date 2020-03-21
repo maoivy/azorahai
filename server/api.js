@@ -107,6 +107,23 @@ router.post("/proofs/like", auth.ensureLoggedIn, (req, res) => {
   });
 });
 
+router.post("/proofs/unlike", auth.ensureLoggedIn, (req, res) => {
+  Proof.findOne({
+    _id: req.body.proofId,
+  }).then((proof) => {
+    // if the user has already liked it and isn't the author
+    const isAuthor = proof.user.toString() !== req.user._id.toString();
+    const likeIndex = proof.likes.indexOf(req.user._id);
+    const alreadyLiked = likeIndex !== -1;
+    if (isAuthor && alreadyLiked) {
+      proof.likes.splice(likeIndex, 1);
+      proof.save().then((likedProof) => res.send(likedProof));
+    } else {
+      res.send(proof);
+    }
+  });
+});
+
 router.post("/settings", auth.ensureLoggedIn, (req, res) => {
   User.findOne({
     _id: req.user._id,

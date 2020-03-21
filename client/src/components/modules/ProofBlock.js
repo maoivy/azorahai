@@ -7,11 +7,13 @@ import "./ProofBlock.css";
 import { get, post } from "../../utilities.js";
 
 /**
- * Home is a component for displaying the main screen
+ * ProofBlock is a component for displaying the proofs
  *
  * Proptypes
  * @param {ObjectId} theory id
  * @param {ObjectId} user id
+ * @param {String} username
+ * @param {String} icon
  *
  **/
 class ProofBlock extends React.Component {
@@ -32,6 +34,7 @@ class ProofBlock extends React.Component {
   submitNewProof = (proof) => {
     const params = {
       username: this.props.username,
+      icon: this.props.icon,
       theory: this.props.theory,
       text: proof,
     };
@@ -62,6 +65,17 @@ class ProofBlock extends React.Component {
     });
   };
 
+  unlikeProof = (proof) => {
+    const proofIndex = this.state.proofs.indexOf(proof);
+    post("/api/proofs/unlike", { proofId: proof._id }).then((likedProof) => {
+      const proofs = this.state.proofs;
+      proofs.splice(proofIndex, 1, likedProof);
+      this.setState({
+        proofs: proofs,
+      });
+    });
+  };
+
   render() {
     let proofs = "Loading...";
     if (this.state.proofs) {
@@ -72,6 +86,7 @@ class ProofBlock extends React.Component {
           user={this.props.user}
           deleteProof={this.deleteProof}
           likeProof={this.likeProof}
+          unlikeProof={this.unlikeProof}
         />
       ));
     }

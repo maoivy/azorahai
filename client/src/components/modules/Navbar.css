@@ -1,4 +1,9 @@
 .navbar-container {
   display: flex;
   justify-content: space-between;
+  height: 7vh;
+}
+
+.sigil {
+  height: 7vh;
 }

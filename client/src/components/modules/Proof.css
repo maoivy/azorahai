@@ -1,9 +1,16 @@
 .proof-container {
   margin-top: 16px;
+  display: flex;
+}
+
+.proof-icon {
+  height: 3vw;
+  margin-top: 8px;
+  margin-right: 1vw;
 }
 
 .proof-content-container {
-  width: 65vw;
+  width: 61vw;
   padding: 10px;
   background-color: white;
   border: 1px solid var(--borders);
@@ -22,7 +29,7 @@
 
 .proof-footer {
   margin-top: 8px;
-  width: 65vw;
+  width: 61vw;
   display: flex;
   align-items: center;
   justify-content: space-between;

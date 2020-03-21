@@ -54,13 +54,15 @@ class Input extends React.Component {
 
     return (
       <div className="input-container">
-        <Editor
-          editorState={this.state.editorState}
-          onChange={this.onChange}
-          handleKeyCommand={this.handleKeyCommand}
-          keyBindingFn={this.mapKeyBindings}
-          placeholder="Start making your case..."
-        />
+        <div className="input-box">
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            handleKeyCommand={this.handleKeyCommand}
+            keyBindingFn={this.mapKeyBindings}
+            placeholder="Start making your case..."
+          />
+        </div>
         <div className="input-footer">
           <button className={submitClassName} onClick={() => this.handleSubmit()}>
             Post

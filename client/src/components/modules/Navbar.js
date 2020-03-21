@@ -4,10 +4,21 @@ import { Link } from "@reach/router";
 
 import "./Navbar.css";
 import "../../utilities.css";
-// import logo from "../../../dist/C.png";
+import tinfoil from "../../public/tinfoil.png";
+import targaryen from "../../public/targaryen.png";
 
 const GOOGLE_CLIENT_ID = "164562165892-i4it57327rduvh42atp6f6qpqdsrgamu.apps.googleusercontent.com";
 
+/**
+ * Navbar is a component for letting the user navigate pages
+ *
+ * Proptypes
+ * @param {ObjectId} user id
+ * @param {String} icon of user logged in
+ * @param {function} handleLogin
+ * @param {function} handleLogout
+ *
+ **/
 class Navbar extends Component {
   constructor(props) {
     super(props);
@@ -18,11 +29,12 @@ class Navbar extends Component {
       <>
         <div className="navbar-container">
           <Link to="/" className="navbar-link">
-            a song of tin and foil
+            <img className="sigil" src={tinfoil} />
           </Link>
-          <div className="navBar-linkContainer">
+          <div className="navbar-links">
             {this.props.user ? (
               <>
+                <img className="sigil" src={targaryen} />
                 <GoogleLogout
                   className="logout-btn Navbar-opts_login"
                   clientId={GOOGLE_CLIENT_ID}

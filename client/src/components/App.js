@@ -21,6 +21,7 @@ class App extends Component {
     this.state = {
       userId: null,
       username: "",
+      icon: "targaryen",
     };
   }
 
@@ -31,6 +32,7 @@ class App extends Component {
         this.setState({
           userId: user._id,
           username: user.username,
+          icon: user.icon,
         });
       }
     });
@@ -40,7 +42,7 @@ class App extends Component {
     console.log(`Logged in as ${res.profileObj.name}`);
     const userToken = res.tokenObj.id_token;
     post("/api/login", { token: userToken }).then((user) => {
-      this.setState({ userId: user._id, username: user.username });
+      this.setState({ userId: user._id, username: user.username, icon: user.icon });
       if (!user.username) {
         navigate("/settings");
       }
@@ -73,6 +75,7 @@ class App extends Component {
         </Helmet>
         <Navbar
           user={this.state.userId}
+          icon={this.state.icon}
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
         />
@@ -89,7 +92,12 @@ class App extends Component {
             </Router>
           ) : (
             <Router>
-              <Home path="/" user={this.state.userId} username={this.state.username} />
+              <Home
+                path="/"
+                user={this.state.userId}
+                username={this.state.username}
+                icon={this.state.icon}
+              />
               <Settings
                 path="settings"
                 username={this.state.username}

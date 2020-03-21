@@ -1,17 +1,18 @@
-.input-container {
+.input-box {
   height: 10vh;
   width: 65vw;
   padding: 10px;
   background-color: white;
   border: 1px solid var(--borders);
   border-radius: 3px;
+  overflow: scroll;
 }
 
 .input-footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-  margin-right: -10px;
+  margin-right: -20px;
 }
 
 .submit-btn,
