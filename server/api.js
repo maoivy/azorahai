@@ -72,13 +72,17 @@ router.get("/theories", (req, res) => {
 router.get("/proofs", (req, res) => {
   Proof.find({
     theory: req.query.theory,
-  }).then((proofs) => res.send(proofs));
+  })
+    .sort({ likecount: -1 })
+    .sort({ timestamp: -1 })
+    .then((proofs) => res.send(proofs));
 });
 
 router.post("/proofs/new", auth.ensureLoggedIn, (req, res) => {
   newProof = new Proof({
     user: req.user._id,
     username: req.body.username,
+    icon: req.body.icon,
     theory: req.body.theory,
     text: req.body.text,
   });
@@ -99,6 +103,7 @@ router.post("/proofs/like", auth.ensureLoggedIn, (req, res) => {
     const isAuthor = proof.user.toString() !== req.user._id.toString();
     const alreadyLiked = proof.likes.indexOf(req.user._id) !== -1;
     if (isAuthor && !alreadyLiked) {
+      proof.likecount++;
       proof.likes.push(req.user._id);
       proof.save().then((likedProof) => res.send(likedProof));
     } else {
@@ -116,6 +121,7 @@ router.post("/proofs/unlike", auth.ensureLoggedIn, (req, res) => {
     const likeIndex = proof.likes.indexOf(req.user._id);
     const alreadyLiked = likeIndex !== -1;
     if (isAuthor && alreadyLiked) {
+      proof.likecount--;
       proof.likes.splice(likeIndex, 1);
       proof.save().then((likedProof) => res.send(likedProof));
     } else {

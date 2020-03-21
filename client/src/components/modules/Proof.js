@@ -80,7 +80,7 @@ class Proof extends React.Component {
           <div className="proof-footer">
             <div className="proof-footer-left">
               {likeButton}
-              <div className="likes-count">{this.props.proof.likes.length} likes</div>
+              <div className="likes-count">{this.props.proof.likecount} likes</div>
             </div>
             {this.props.proof.user == this.props.user && (
               <button

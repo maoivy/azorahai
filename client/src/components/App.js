@@ -21,7 +21,7 @@ class App extends Component {
     this.state = {
       userId: null,
       username: "",
-      icon: "targaryen",
+      icon: "",
     };
   }
 
