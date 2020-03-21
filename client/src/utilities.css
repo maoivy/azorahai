@@ -25,6 +25,11 @@ body {
   background-color: var(--background);
 }
 
+button,
+input {
+  font-family: Open Sans, sans-serif;
+}
+
 form {
   flex-grow: 1;
 }

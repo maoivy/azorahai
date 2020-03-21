@@ -7,10 +7,24 @@ import "../../utilities.css";
 import tinfoil from "../../public/tinfoil.png";
 import targaryen from "../../public/sigils/targaryen.png";
 import baratheon from "../../public/sigils/baratheon.png";
+import arryn from "../../public/sigils/arryn.png";
+import greyjoy from "../../public/sigils/greyjoy.png";
+import martell from "../../public/sigils/martell.png";
+import lannister from "../../public/sigils/lannister.png";
+import tully from "../../public/sigils/tully.png";
+import tyrell from "../../public/sigils/tyrell.png";
+import stark from "../../public/sigils/stark.png";
 
 const SIGIL_MAP = {
   targaryen: targaryen,
   baratheon: baratheon,
+  arryn: arryn,
+  greyjoy: greyjoy,
+  martell: martell,
+  lannister: lannister,
+  tully: tully,
+  tyrell: tyrell,
+  stark: stark,
 };
 
 const GOOGLE_CLIENT_ID = "164562165892-i4it57327rduvh42atp6f6qpqdsrgamu.apps.googleusercontent.com";

@@ -4,10 +4,24 @@ import InputDisplay from "./InputDisplay.js";
 import "./Proof.css";
 import targaryen from "../../public/sigils/targaryen.png";
 import baratheon from "../../public/sigils/baratheon.png";
+import arryn from "../../public/sigils/arryn.png";
+import greyjoy from "../../public/sigils/greyjoy.png";
+import martell from "../../public/sigils/martell.png";
+import lannister from "../../public/sigils/lannister.png";
+import tully from "../../public/sigils/tully.png";
+import tyrell from "../../public/sigils/tyrell.png";
+import stark from "../../public/sigils/stark.png";
 
 const SIGIL_MAP = {
   targaryen: targaryen,
   baratheon: baratheon,
+  arryn: arryn,
+  greyjoy: greyjoy,
+  martell: martell,
+  lannister: lannister,
+  tully: tully,
+  tyrell: tyrell,
+  stark: stark,
 };
 
 /**

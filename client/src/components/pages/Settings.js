@@ -6,10 +6,24 @@ import { get, post } from "../../utilities.js";
 
 import targaryen from "../../public/sigils/targaryen.png";
 import baratheon from "../../public/sigils/baratheon.png";
+import arryn from "../../public/sigils/arryn.png";
+import greyjoy from "../../public/sigils/greyjoy.png";
+import martell from "../../public/sigils/martell.png";
+import lannister from "../../public/sigils/lannister.png";
+import tully from "../../public/sigils/tully.png";
+import tyrell from "../../public/sigils/tyrell.png";
+import stark from "../../public/sigils/stark.png";
 
 const SIGIL_MAP = {
   targaryen: targaryen,
   baratheon: baratheon,
+  arryn: arryn,
+  greyjoy: greyjoy,
+  martell: martell,
+  lannister: lannister,
+  tully: tully,
+  tyrell: tyrell,
+  stark: stark,
 };
 
 /**
@@ -34,7 +48,20 @@ class Settings extends React.Component {
   render() {
     return (
       <div className="settings-container">
-        <h1>Settings</h1>
+        <h1>settings</h1>
+        <div className="settings-label">username</div>
+        <input
+          type="text"
+          className="settings-input"
+          value={this.state.username}
+          onChange={(event) => this.setState({ username: event.target.value })}
+        ></input>
+        <button
+          className="settings-btn"
+          onClick={() => this.props.changeUsername(this.state.username)}
+        >
+          Change username
+        </button>
         <div className="settings-label">icon</div>
         <div className="sigils-container">
           {Object.keys(SIGIL_MAP).map((sigil, k) => {
@@ -53,19 +80,6 @@ class Settings extends React.Component {
             );
           })}
         </div>
-        <div className="settings-label">username</div>
-        <input
-          type="text"
-          className="settings-input"
-          value={this.state.username}
-          onChange={(event) => this.setState({ username: event.target.value })}
-        ></input>
-        <button
-          className="settings-btn"
-          onClick={() => this.props.changeUsername(this.state.username)}
-        >
-          Change username
-        </button>
       </div>
     );
   }

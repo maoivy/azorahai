@@ -1,11 +1,38 @@
+.settings-container {
+  width: 65vw;
+}
+
+.settings-label {
+  margin-top: 16px;
+}
+
+.settings-input {
+  padding: 4px 8px;
+  border: 1px solid var(--borders);
+  border-radius: 3px;
+}
+
+.settings-btn {
+  margin-left: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--borders);
+  border-radius: 3px;
+}
+
 .sigils-container {
   display: flex;
+  margin-top: 8px;
 }
 
 .settings-sigil {
   height: 4vw;
 }
 
+.settings-sigil + .settings-sigil {
+  margin-left: 16px;
+}
+
 .selected {
-  border: 1px solid red;
+  border: 1px solid var(--borders);
+  border-radius: 100%;
 }
