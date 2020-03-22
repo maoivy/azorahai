@@ -131,16 +131,24 @@ router.post("/proofs/unlike", auth.ensureLoggedIn, (req, res) => {
 });
 
 router.post("/settings/username", auth.ensureLoggedIn, (req, res) => {
-  Proof.updateMany({ user: req.user._id }, { $set: { username: req.body.username } }).then(
-    (updatedProofs) => {
-      User.findOne({
-        _id: req.user._id,
-      }).then((user) => {
-        user.username = req.body.username;
-        user.save().then((updatedUser) => res.send(updatedUser));
-      });
+  User.findOne({ username: req.body.username }).then((userWithUsername) => {
+    // if nobody already has that username, change it
+    if (!userWithUsername) {
+      Proof.updateMany({ user: req.user._id }, { $set: { username: req.body.username } }).then(
+        (updatedProofs) => {
+          User.findOne({
+            _id: req.user._id,
+          }).then((user) => {
+            user.username = req.body.username;
+            user.save().then((updatedUser) => res.send(updatedUser));
+          });
+        }
+      );
+    } else {
+      // if someone already has the username, send error
+      res.send({ error: "duplicate username" });
     }
-  );
+  });
 });
 
 router.post("/settings/icon", auth.ensureLoggedIn, (req, res) => {
