@@ -42,7 +42,31 @@ const GOOGLE_CLIENT_ID = "164562165892-i4it57327rduvh42atp6f6qpqdsrgamu.apps.goo
 class Navbar extends Component {
   constructor(props) {
     super(props);
+    this.container = React.createRef();
+    this.state = {
+      menu: false,
+    };
   }
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  toggleMenu = () => {
+    this.setState({ menu: !this.state.menu });
+  };
+
+  handleClickOutside = (event) => {
+    if (this.container.current && !this.container.current.contains(event.target)) {
+      this.setState({
+        menu: false,
+      });
+    }
+  };
 
   render() {
     return (
@@ -54,17 +78,25 @@ class Navbar extends Component {
           <div className="navbar-links">
             {this.props.user ? (
               <>
-                <Link to="settings" className="navbar-link">
-                  <img className="sigil" src={SIGIL_MAP[this.props.icon]} />
-                </Link>
-
-                <GoogleLogout
-                  className="logout-btn Navbar-opts_login"
-                  clientId={GOOGLE_CLIENT_ID}
-                  buttonText="Logout"
-                  onLogoutSuccess={this.props.handleLogout}
-                  onFailure={(err) => console.log(err)}
+                <img
+                  className="sigil"
+                  src={SIGIL_MAP[this.props.icon]}
+                  onClick={() => this.toggleMenu()}
                 />
+                {this.state.menu && (
+                  <div className="navbar-dropdown" ref={this.container}>
+                    <Link to="/settings" className="navbar-dropdown-link">
+                      Settings
+                    </Link>
+                    <GoogleLogout
+                      className="logout-btn Navbar-opts_login"
+                      clientId={GOOGLE_CLIENT_ID}
+                      buttonText="Logout"
+                      onLogoutSuccess={this.props.handleLogout}
+                      onFailure={(err) => console.log(err)}
+                    />
+                  </div>
+                )}
               </>
             ) : (
               <GoogleLogin
