@@ -56,10 +56,6 @@ class Navbar extends Component {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
-  toggleMenu = () => {
-    this.setState({ menu: !this.state.menu });
-  };
-
   handleClickOutside = (event) => {
     if (this.container.current && !this.container.current.contains(event.target)) {
       this.setState({
@@ -77,15 +73,19 @@ class Navbar extends Component {
           </Link>
           <div className="navbar-links">
             {this.props.user ? (
-              <>
+              <div className="navbar-menu-container" ref={this.container}>
                 <img
                   className="sigil"
                   src={SIGIL_MAP[this.props.icon]}
-                  onClick={() => this.toggleMenu()}
+                  onClick={() => this.setState({ menu: true })}
                 />
                 {this.state.menu && (
-                  <div className="navbar-dropdown" ref={this.container}>
-                    <Link to="/settings" className="navbar-dropdown-link">
+                  <div className="navbar-dropdown">
+                    <Link
+                      to="/settings"
+                      className="navbar-dropdown-link"
+                      onClick={() => this.setState({ menu: false })}
+                    >
                       Settings
                     </Link>
                     <GoogleLogout
@@ -97,7 +97,7 @@ class Navbar extends Component {
                     />
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <GoogleLogin
                 className="Navbar-opts_login"
