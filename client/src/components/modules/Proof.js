@@ -67,6 +67,10 @@ class Proof extends React.Component {
         );
       }
     }
+    let likeLabel = "likes";
+    if (this.props.proof.likecount == 1) {
+      likeLabel = "like";
+    }
     return (
       <div className="proof-container">
         <img className="proof-icon" src={SIGIL_MAP[this.props.proof.icon]} />
@@ -80,7 +84,9 @@ class Proof extends React.Component {
           <div className="proof-footer">
             <div className="proof-footer-left">
               {likeButton}
-              <div className="likes-count">{this.props.proof.likecount} likes</div>
+              <div className="likes-count">
+                {this.props.proof.likecount} {likeLabel}
+              </div>
             </div>
             {this.props.proof.user == this.props.user && (
               <button
