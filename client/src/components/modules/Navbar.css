@@ -1,7 +1,13 @@
 .navbar-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 7vh;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: var(--links);
 }
 
 .sigil {
@@ -31,6 +37,6 @@
   padding: 5px 27px;
   font-size: 0.8em;
   text-decoration: none;
-  color: var(--body);
+  color: var(--links);
   background: white;
 }
