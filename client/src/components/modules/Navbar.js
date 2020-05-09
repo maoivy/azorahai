@@ -4,29 +4,9 @@ import { Link } from "@reach/router";
 
 import "./Navbar.css";
 import "../../utilities.css";
-import tinfoil from "../../public/tinfoil.png";
-import targaryen from "../../public/sigils/targaryen.png";
-import baratheon from "../../public/sigils/baratheon.png";
-import arryn from "../../public/sigils/arryn.png";
-import greyjoy from "../../public/sigils/greyjoy.png";
-import martell from "../../public/sigils/martell.png";
-import lannister from "../../public/sigils/lannister.png";
-import tully from "../../public/sigils/tully.png";
-import tyrell from "../../public/sigils/tyrell.png";
-import stark from "../../public/sigils/stark.png";
 import { get, post } from "../../utilities.js";
 
-const SIGIL_MAP = {
-  targaryen: targaryen,
-  baratheon: baratheon,
-  arryn: arryn,
-  greyjoy: greyjoy,
-  martell: martell,
-  lannister: lannister,
-  tully: tully,
-  tyrell: tyrell,
-  stark: stark,
-};
+import tinfoil from "../../public/tinfoil.png";
 
 const GOOGLE_CLIENT_ID = "164562165892-i4it57327rduvh42atp6f6qpqdsrgamu.apps.googleusercontent.com";
 
@@ -90,7 +70,7 @@ class Navbar extends Component {
               <div className="navbar-menu-container" ref={this.container}>
                 <img
                   className="sigil"
-                  src={SIGIL_MAP[this.props.icon]}
+                  src={this.props.SIGIL_MAP[this.props.icon]}
                   onClick={() => this.setState({ menu: true })}
                 />
                 {this.state.menu && (
@@ -102,13 +82,15 @@ class Navbar extends Component {
                     >
                       Settings
                     </Link>
-                    <GoogleLogout
-                      className="logout-btn Navbar-opts_login"
-                      clientId={GOOGLE_CLIENT_ID}
-                      buttonText="Logout"
-                      onLogoutSuccess={this.props.handleLogout}
-                      onFailure={(err) => console.log(err)}
-                    />
+                    <div className="navbar-login" onClick={() => this.setState({ menu: false })}>
+                      <GoogleLogout
+                        className="logout-btn Navbar-opts_login"
+                        clientId={GOOGLE_CLIENT_ID}
+                        buttonText="Logout"
+                        onLogoutSuccess={this.props.handleLogout}
+                        onFailure={(err) => console.log(err)}
+                      />
+                    </div>
                   </div>
                 )}
               </div>

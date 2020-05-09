@@ -12,6 +12,28 @@ import "./App.css";
 
 import { get, post } from "../utilities.js";
 
+import targaryen from "../public/sigils/targaryen.png";
+import baratheon from "../public/sigils/baratheon.png";
+import arryn from "../public/sigils/arryn.png";
+import greyjoy from "../public/sigils/greyjoy.png";
+import martell from "../public/sigils/martell.png";
+import lannister from "../public/sigils/lannister.png";
+import tully from "../public/sigils/tully.png";
+import tyrell from "../public/sigils/tyrell.png";
+import stark from "../public/sigils/stark.png";
+
+const SIGIL_MAP = {
+  targaryen: targaryen,
+  baratheon: baratheon,
+  arryn: arryn,
+  greyjoy: greyjoy,
+  martell: martell,
+  lannister: lannister,
+  tully: tully,
+  tyrell: tyrell,
+  stark: stark,
+};
+
 /**
  * Define the "App" component as a class.
  */
@@ -88,6 +110,7 @@ class App extends Component {
           icon={this.state.icon}
           handleLogin={this.handleLogin}
           handleLogout={this.handleLogout}
+          SIGIL_MAP={SIGIL_MAP}
         />
         <div className="page-container">
           {needsToRegister ? (
@@ -99,6 +122,7 @@ class App extends Component {
                 icon={this.state.icon}
                 changeUsername={this.changeUsername}
                 changeIcon={this.changeIcon}
+                SIGIL_MAP={SIGIL_MAP}
               />
               <NotFound default />
             </Router>
@@ -122,6 +146,7 @@ class App extends Component {
                 icon={this.state.icon}
                 changeUsername={this.changeUsername}
                 changeIcon={this.changeIcon}
+                SIGIL_MAP={SIGIL_MAP}
               />
               <NotFound default />
             </Router>

@@ -144,6 +144,23 @@ router.post("/proofs/unlike", auth.ensureLoggedIn, (req, res) => {
   });
 });
 
+// checks if a username is available
+router.get("/users", (req, res) => {
+  User.findOne({ username: req.query.username }).then((userWithUsername) => {
+    if (userWithUsername && userWithUsername._id !== req.user._id) {
+      console.log(req.user._id);
+      console.log(userWithUsername);
+      console.log(req.query.username);
+      console.log("unavailable");
+      res.send({ status: "unavailable" });
+    } else {
+      console.log(req.query.username);
+      console.log("available");
+      res.send({ status: "available" });
+    }
+  });
+});
+
 router.post("/settings/username", auth.ensureLoggedIn, (req, res) => {
   User.findOne({ username: req.body.username }).then((userWithUsername) => {
     // if nobody already has that username, change it

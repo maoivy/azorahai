@@ -4,28 +4,6 @@ import "./Settings.css";
 
 import { get, post } from "../../utilities.js";
 
-import targaryen from "../../public/sigils/targaryen.png";
-import baratheon from "../../public/sigils/baratheon.png";
-import arryn from "../../public/sigils/arryn.png";
-import greyjoy from "../../public/sigils/greyjoy.png";
-import martell from "../../public/sigils/martell.png";
-import lannister from "../../public/sigils/lannister.png";
-import tully from "../../public/sigils/tully.png";
-import tyrell from "../../public/sigils/tyrell.png";
-import stark from "../../public/sigils/stark.png";
-
-const SIGIL_MAP = {
-  targaryen: targaryen,
-  baratheon: baratheon,
-  arryn: arryn,
-  greyjoy: greyjoy,
-  martell: martell,
-  lannister: lannister,
-  tully: tully,
-  tyrell: tyrell,
-  stark: stark,
-};
-
 /**
  * Settings is a component letting the user change their account
  *
@@ -42,10 +20,37 @@ class Settings extends React.Component {
     this.state = {
       username: this.props.username,
       icon: this.props.icon,
+      status: null,
     };
   }
 
+  handleUsernameEntry = (event) => {
+    this.setState({ username: event.target.value });
+    get("/api/users", { username: event.target.value }).then((report) => {
+      this.setState({ status: report.status });
+    });
+  };
+
+  handleUsernameSubmit = () => {
+    if (this.state.status == "available") {
+      this.props.changeUsername(this.state.username);
+      this.setState({ status: null });
+    }
+  };
+
   render() {
+    let usernameButton = (
+      <button className="settings-btn" disabled>
+        Change username
+      </button>
+    );
+    if (this.state.status == "available") {
+      usernameButton = (
+        <button className="settings-btn" onClick={() => this.handleUsernameSubmit}>
+          Change username
+        </button>
+      );
+    }
     return (
       <div className="settings-container">
         <h1>settings</h1>
@@ -54,17 +59,13 @@ class Settings extends React.Component {
           type="text"
           className="settings-input"
           value={this.state.username}
-          onChange={(event) => this.setState({ username: event.target.value })}
+          onChange={(event) => this.handleUsernameEntry(event)}
         ></input>
-        <button
-          className="settings-btn"
-          onClick={() => this.props.changeUsername(this.state.username)}
-        >
-          Change username
-        </button>
+        {usernameButton}
+        <p className="username-availability">{this.state.status}</p>
         <div className="settings-label">icon</div>
         <div className="sigils-container">
-          {Object.keys(SIGIL_MAP).map((sigil, k) => {
+          {Object.keys(this.props.SIGIL_MAP).map((sigil, k) => {
             let sigilClassName = "settings-sigil";
             if (sigil == this.state.icon) {
               sigilClassName += " selected";
@@ -72,7 +73,7 @@ class Settings extends React.Component {
             return (
               <img
                 key={k}
-                src={SIGIL_MAP[sigil]}
+                src={this.props.SIGIL_MAP[sigil]}
                 className={sigilClassName}
                 onMouseDown={() => this.setState({ icon: sigil })}
                 onMouseUp={() => this.props.changeIcon(this.state.icon)}
