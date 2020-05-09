@@ -39,9 +39,9 @@ const CHARACTERS = ["Daenerys Targaryen", "Jon Snow"];
 const ACTIONS = ["is Benjen", "is Rhaegar", "is Quaithe"];
 const CATEGORIES = ["secret identity"];
 
-// generates a random theorym, no filters for now
+// generates a random theory, no filters for now
 // TODO: FIND A BETTER WAY TO BUILD THE THEORIES DATABASE
-router.get("/theories", (req, res) => {
+router.get("/random", (req, res) => {
   // generate a random theory
   const character = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
   const action = ACTIONS[Math.floor(Math.random() * ACTIONS.length)];
@@ -67,6 +67,13 @@ router.get("/theories", (req, res) => {
   });
 });
 
+// returns the specific theory
+router.get("/theories", (req, res) => {
+  Theory.findOne({
+    _id: req.query.theoryId,
+  }).then((theory) => res.send(theory));
+});
+
 // gets all the proofs associated with a given theory
 // should pass { theoryId: theoryId }
 router.get("/proofs", (req, res) => {
@@ -76,6 +83,13 @@ router.get("/proofs", (req, res) => {
     .sort({ likecount: -1 })
     .sort({ timestamp: -1 })
     .then((proofs) => res.send(proofs));
+});
+
+// returns the specific proof
+router.get("/proofs/one", (req, res) => {
+  Proof.findOne({
+    _id: req.query.proofId,
+  }).then((proof) => res.send(proof));
 });
 
 router.post("/proofs/new", auth.ensureLoggedIn, (req, res) => {

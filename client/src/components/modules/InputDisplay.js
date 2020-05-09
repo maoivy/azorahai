@@ -23,6 +23,14 @@ class InputDisplay extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      const rawContentState = JSON.parse(this.props.text);
+      const convertedContentState = convertFromRaw(rawContentState);
+      this.setState({ editorState: EditorState.createWithContent(convertedContentState) });
+    }
+  }
+
   render() {
     return (
       <div className="inputdisplay-container">

@@ -3,6 +3,7 @@ import { Router, Redirect, navigate } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Navbar from "./modules/Navbar.js";
 import Home from "./pages/Home.js";
+import ProofPage from "./pages/ProofPage.js";
 import Settings from "./pages/Settings.js";
 import { Helmet } from "react-helmet";
 
@@ -105,6 +106,12 @@ class App extends Component {
             <Router>
               <Home
                 path="/"
+                user={this.state.userId}
+                username={this.state.username}
+                icon={this.state.icon}
+              />
+              <ProofPage
+                path="/:theoryId"
                 user={this.state.userId}
                 username={this.state.username}
                 icon={this.state.icon}

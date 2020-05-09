@@ -14,6 +14,7 @@ import lannister from "../../public/sigils/lannister.png";
 import tully from "../../public/sigils/tully.png";
 import tyrell from "../../public/sigils/tyrell.png";
 import stark from "../../public/sigils/stark.png";
+import { get, post } from "../../utilities.js";
 
 const SIGIL_MAP = {
   targaryen: targaryen,
@@ -45,11 +46,13 @@ class Navbar extends Component {
     this.container = React.createRef();
     this.state = {
       menu: false,
+      theoryId: null,
     };
   }
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    get("/api/random").then((theory) => this.setState({ theoryId: theory._id }));
   }
 
   componentWillUnmount() {
@@ -64,12 +67,23 @@ class Navbar extends Component {
     }
   };
 
+  getRandomTheory = () => {
+    get("/api/random").then((theory) => this.setState({ theoryId: theory._id }));
+  };
+
   render() {
     return (
       <>
         <div className="navbar-container">
           <Link to="/" className="navbar-link">
             <img className="sigil" src={tinfoil} />
+          </Link>
+          <Link
+            to={`/${this.state.theoryId}`}
+            className="navbar-link"
+            onMouseDown={() => this.getRandomTheory()}
+          >
+            random theory
           </Link>
           <div className="navbar-links">
             {this.props.user ? (

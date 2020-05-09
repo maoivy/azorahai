@@ -31,6 +31,14 @@ class ProofBlock extends React.Component {
     );
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      get("/api/proofs", { theory: this.props.theory }).then((proofs) =>
+        this.setState({ proofs: proofs })
+      );
+    }
+  }
+
   submitNewProof = (proof) => {
     const params = {
       username: this.props.username,
